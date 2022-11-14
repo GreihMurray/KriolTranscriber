@@ -1,0 +1,6 @@
+*.pdf
+*.wav
+*.png
+/test
+/html
+.idea/
