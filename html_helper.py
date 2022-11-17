@@ -2,6 +2,7 @@ import unicodedata
 import re
 import os
 from tqdm import tqdm
+import string
 
 DIRECTORY = 'html/'
 
@@ -29,20 +30,20 @@ def load_data(dir_ext):
             check_divs.extend(re.findall(r'<div class=\'ip\'>(.*)', data))
 
             if len(check_divs) > 0:
-                full = ' '.join(check_divs)
+                full = '!'.join(check_divs)
                 full = re.sub(r'[\,,@,#,$,%,^,&,*,(,),\[,\],\',\",;,:,“,”,‘,’]', '', full)
-                full = re.sub(' +', ' ', full).strip()
+                full = re.sub('^\s+', ' ', full).strip('\u00A0')
                 full = re.split('[\.,\?,!,\n]', str(full))
-                all_data.extend(full)
+                all_data.extend([s.strip() for s in full])
 
             divs.extend(re.findall(r'<div class=\'[p,s]\'.*?>(.*?) </div>', data))
 
-        full_data = ' '.join(divs)
+        full_data = '!'.join(divs)
         full_data = re.sub(r'[\,,@,#,$,%,^,&,*,(,),\[,\],\',\",;,:,“,”,‘,’]', '', full_data)
-        full_data = re.sub(' +', ' ', full_data).strip()
+        full_data = re.sub(' +', ' ', full_data)
         full_data = re.split('[\.,\?,!,\n]', str(full_data))
 
-        all_data.extend(full_data)
+        all_data.extend([s.strip() for s in full_data])
 
         clean = []
         for row2 in all_data:
@@ -58,4 +59,7 @@ def load_data(dir_ext):
 if __name__ == '__main__':
     datar = load_data('train')
     for row in datar:
+        # i = ord(row[0])
+        # print(hex(i))
         print('||||', row)
+
