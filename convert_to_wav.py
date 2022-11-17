@@ -4,7 +4,7 @@ from pydub import AudioSegment
 from tqdm import tqdm
 
 
-directory = 'C:/Users/murra/Downloads/rop_mp3'
+directory = 'rop_mp3/'
 
 for file in tqdm(os.listdir(directory), desc='Converting'):
     f = directory + '/' + file
